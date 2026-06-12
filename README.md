@@ -1,77 +1,85 @@
-# 🎉 KeyFiesta 键盘庆典
+# 🎉 KeyFiesta
 
-打字时在文字光标处喷出 emoji 烟花/彩带，并播放随机搞笑音效的 macOS 菜单栏小工具。
+**English** | [简体中文](README.zh-CN.md)
 
-对所有输入法生效（苹果拼音、五笔、各种第三方输入法都行——它监听的是按键，与输入法无关）。
-原生 Swift 编写，安装后 **0.7 MB**、内存约 **20 MB**、空闲时几乎 **0% CPU**。
+A macOS menu-bar toy that sprays emoji fireworks/confetti at your text cursor and plays a random
+silly sound on every keystroke.
 
-## ✨ 特性
+Works with every input method (Pinyin, Wubi, any third-party IME) — it listens to keystrokes, not
+to the input method. Written in native Swift: **0.7 MB** installed, ~**20 MB** RAM, near **0% CPU**
+when idle.
 
-- 每次按键在**文字光标处**喷 emoji 粒子（彩带 🎉🎊🎀✨🎈 / 烟花 🎆🎇💥⭐🌟）
-- 12 条程序合成的卡通搞笑音效（弹簧、鸭叫、喇叭、滑哨……），8 路并发不炸耳
-- 菜单栏一键开关特效 / 音效 / 音量三档 / 开机自启
-- 密码框自动静默；⌘C 等快捷键不触发
-- 空闲零开销：不打字时音频引擎自动暂停，不阻止系统休眠
+## ✨ Features
 
-## 📦 安装
+- Emoji particles burst **at the text caret** on every keystroke (confetti 🎉🎊🎀✨🎈 / fireworks 🎆🎇💥⭐🌟)
+- 12 procedurally-synthesized cartoon sound effects (boing, quack, horn, slide whistle…), 8-voice pool so it never clips
+- Menu-bar toggles for effects / sound / volume (3 levels) / launch-at-login
+- Auto-silent in password fields; shortcuts like ⌘C don't trigger it
+- Zero idle cost: the audio engine pauses when you stop typing and never blocks system sleep
 
-> 这是自签名 app（没买苹果 99 美元/年的开发者签名），所以首次打开要手动放行一次。
+## 📦 Install
 
-1. 从 [Releases](../../releases) 下载 `KeyFiesta.dmg`，双击挂载，把 **KeyFiesta** 拖到 **Applications**。
-2. 在「应用程序」里双击 KeyFiesta —— 会被系统拦下（"无法验证"），点「完成」。
-3. 打开 **系统设置 → 隐私与安全性**，往下滚到安全提示，点 **「仍要打开」**，认证后再点「打开」。
-   - macOS 13/14 可走捷径：右键 app →「打开」→「打开」。
-   - 会用终端的话一行解决：`xattr -dr com.apple.quarantine /Applications/KeyFiesta.app`
-4. 首次启动会弹「辅助功能」授权：**系统设置 → 隐私与安全性 → 辅助功能 → 打开 KeyFiesta**。
-5. 授权后 app 会**自动重启一次**（macOS 要求进程重启才启用辅助功能查询），属正常现象。菜单栏出现 🎉 即就绪。
+> This is a self-signed app (no $99/yr Apple Developer signature), so the first launch needs one manual approval.
 
-需要辅助功能权限的原因：感知"有键按下"和定位文字光标。**不读取任何按键内容**（见下）。
+1. Download `KeyFiesta.dmg` from [Releases](../../releases), open it, and drag **KeyFiesta** into **Applications**.
+2. Double-click KeyFiesta in Applications — macOS blocks it ("cannot verify"); click **Done**.
+3. Open **System Settings → Privacy & Security**, scroll to the security notice, click **Open Anyway**, authenticate, then click **Open**.
+   - On macOS 13/14 you can instead right-click the app → **Open** → **Open**.
+   - Or one line in Terminal: `xattr -dr com.apple.quarantine /Applications/KeyFiesta.app`
+4. On first launch it asks for Accessibility: **System Settings → Privacy & Security → Accessibility → enable KeyFiesta**.
+5. After you grant it, the app **relaunches itself once** (macOS only enables Accessibility queries after a process restart) — this is expected. The 🎉 menu-bar icon means it's ready.
 
-## 🔒 隐私
+Why Accessibility: to sense "a key was pressed" and to locate the text caret. It **never reads any
+key content** (see below).
 
-- **不读取、不记录、不传输任何按键内容**。代码只把"有键按下"当作放烟花的信号。
-- 无网络访问，无磁盘写入（除菜单设置存进 UserDefaults）。
-- 全部源码在 `Sources/KeyFiesta/`，几百行，可自行审计。
+## 🔒 Privacy
 
-## 🎯 各 app 的光标精度
+- **Never reads, records, or transmits any keystroke content.** The code only treats "a key went down" as a cue to fire.
+- No network access, no disk writes (except menu settings in UserDefaults).
+- All source is in `Sources/KeyFiesta/` — a few hundred lines, easy to audit.
 
-| 类别 | 精度 |
+## 🎯 Cursor accuracy per app
+
+| Category | Accuracy |
 |---|---|
-| 备忘录 / Safari / 邮件 / Chrome / VS Code / Claude 桌面版 / Obsidian 等绝大多数 app | **字符级精确** |
-| 中文拼音组合期（借输入法候选窗定位） | 基本贴合 |
-| **微信** | **不喷特效** |
+| Notes / Safari / Mail / Chrome / VS Code / Claude desktop / Obsidian and most apps | **character-precise** |
+| Chinese Pinyin composition (located via the IME candidate window) | roughly on the caret |
+| **WeChat** | **no effects** |
 
-微信是自绘界面，对系统**完全不暴露**光标位置（业界所有划词/翻译工具在微信里都只能退回鼠标位置）。
-与其喷错地方，KeyFiesta 检测到微信就不喷。技术细节见 [设计文档](docs/superpowers/specs/2026-06-12-keyfiesta-design.md)。
+WeChat draws its own UI and exposes **nothing** about the caret to the system (every lookup/translation
+tool on macOS falls back to the mouse position inside WeChat). Rather than fire in the wrong place,
+KeyFiesta detects WeChat and stays quiet. Details in the [design doc](docs/superpowers/specs/2026-06-12-keyfiesta-design.md) (Chinese).
 
-## 🛠 从源码构建
+## 🛠 Build from source
 
-需要 macOS 13+ 和 Xcode Command Line Tools（`xcode-select --install`），无需 Xcode：
+Requires macOS 13+ and Xcode Command Line Tools (`xcode-select --install`) — no full Xcode needed:
 
 ```bash
-python3 scripts/make_sounds.py   # 生成音效（已入库，可跳过）
-./scripts/build.sh               # 产出 dist/KeyFiesta.app 和 .zip
-./scripts/make_dmg.sh            # 产出 dist/KeyFiesta.dmg
+python3 scripts/make_sounds.py   # generate sounds (already committed, can skip)
+./scripts/build.sh               # → dist/KeyFiesta.app and .zip
+./scripts/make_dmg.sh            # → dist/KeyFiesta.dmg
 ```
 
-构建脚本默认 ad-hoc 签名（每次重编译后需在系统设置里重新授权辅助功能）。
-若钥匙串里有名为 `KeyFiesta Local Signer` 的自签名证书，会自动改用它——
-签名身份稳定，授权一次后重编译不再掉权限（开发时强烈推荐，建证书方法见 `scripts/build.sh` 注释）。
+The build script ad-hoc signs by default (you must re-grant Accessibility after every rebuild). If a
+self-signed certificate named `KeyFiesta Local Signer` exists in your keychain, it uses that instead —
+the signing identity stays stable, so the grant survives rebuilds (recommended for development;
+see the comment in `scripts/build.sh` for how to create the cert).
 
-## ⚙️ 工作原理（简述）
+## ⚙️ How it works
 
-全局监听 keyDown（辅助功能权限，被动不拦截）→ 后台串行队列做光标定位 → 透明置顶点穿窗里用
-`CAEmitterLayer`（GPU）喷粒子 + `AVAudioEngine` 8 路池播音效。光标定位多通道降级：
+Global keyDown monitor (Accessibility, passive — never intercepts) → caret location on a background
+serial queue → particles via `CAEmitterLayer` (GPU) in a transparent, click-through, always-on-top
+window + sounds via an 8-voice `AVAudioEngine` pool. Caret location degrades through several channels:
 
-1. 经典 AX（`kAXBoundsForRange`）—— 原生 app
-2. **TextMarker 通道**（`AXSelectedTextMarkerRange` → 洗锚点 → `AXBoundsForTextMarkerRange`）——
-   Chromium/Electron（Claude/Obsidian/浏览器）字符级精确，VoiceOver 同款
-3. 输入法候选窗 + 按键计数 —— 中文组合期
-4. 鼠标兜底
+1. Classic AX (`kAXBoundsForRange`) — native apps
+2. **TextMarker channel** (`AXSelectedTextMarkerRange` → anchor-wash → `AXBoundsForTextMarkerRange`) —
+   character-precise in Chromium/Electron (Claude/Obsidian/browsers); the same private channel VoiceOver uses
+3. IME candidate window + keystroke count — Chinese composition
+4. Mouse position — fallback
 
-## 🎵 音效版权
+## 🎵 Sound credits
 
-全部 12 条音效由 `scripts/make_sounds.py` 程序合成，自有版权，随意分发。
+All 12 sound effects are synthesized by `scripts/make_sounds.py` — original work, distribute freely.
 
 ## 📄 License
 
