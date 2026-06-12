@@ -81,6 +81,12 @@ window + sounds via an 8-voice `AVAudioEngine` pool. Caret location degrades thr
 
 All 12 sound effects are synthesized by `scripts/make_sounds.py` — original work, distribute freely.
 
+## 🙏 Credits
+
+Inspired by the typing effect in [WonderPen](https://www.tominlab.com/en/wonderpen). KeyFiesta is an
+independent, from-scratch implementation — its own code, its own synthesized sounds, system emoji —
+not affiliated with or endorsed by WonderPen / TominLab.
+
 ## 📄 License
 
 [MIT](LICENSE)

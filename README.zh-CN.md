@@ -75,6 +75,11 @@ python3 scripts/make_sounds.py   # 生成音效（已入库，可跳过）
 
 全部 12 条音效由 `scripts/make_sounds.py` 程序合成，自有版权，随意分发。
 
+## 🙏 致谢
+
+打字特效的灵感来自 [WonderPen 妙笔](https://www.tominlab.com/en/wonderpen)。KeyFiesta 是全新代码的独立实现
+（自有代码、自己合成的音效、系统 emoji），与 WonderPen / TominLab 无关联，也未获其授权。
+
 ## 📄 License
 
 [MIT](LICENSE)
