@@ -83,9 +83,7 @@ All 12 sound effects are synthesized by `scripts/make_sounds.py` — original wo
 
 ## 🙏 Credits
 
-Inspired by the typing effect in [WonderPen](https://www.tominlab.com/en/wonderpen). KeyFiesta is an
-independent, from-scratch implementation — its own code, its own synthesized sounds, system emoji —
-not affiliated with or endorsed by WonderPen / TominLab.
+Inspired by the typing effect in [WonderPen](https://www.tominlab.com/en/wonderpen).
 
 ## 📄 License
 
